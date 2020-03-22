@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #__author__:ZhangYi
+#__copyright__ = "Lanzhou Universaty, 2020"
+#__version__   = 0.2
 
 import os, re, sys, subprocess,argparse
 from datetime import datetime as dt
@@ -25,7 +27,13 @@ class commit_collect():
             return len(cnt)
 
     def get_tag_days(self,git_cmd, base):
-        seconds = self.git_cmd.communicate()[0]
+        try:
+            seconds = self.git_cmd.communicate()[0]
+        if seconds == 0:
+            raise Exception
+        except Exception as err:
+            print(err)
+            sys.exit(2)
         SecPerHour = 3600
         return ((int(seconds)-self.base))//SecPerHour
 
